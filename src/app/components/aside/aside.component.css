@@ -1,0 +1,79 @@
+body {
+  font-family: Arial, sans-serif;
+}
+aside .container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Полная высота контейнера */
+}
+
+aside {
+  width: 50px;
+  background-color: bisque;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.top-section {
+  display: flex;
+  flex-direction: column; /* Вертикальное расположение логотипа и секции technique-personal */
+}
+
+.bottom-section {
+  margin-top: auto; /* Размещает блок admin-exit внизу */
+  padding-bottom: 30px;
+}
+
+.logo {
+  display: grid;
+  place-content: center;
+  padding: 8px;
+}
+
+.technique-personal, .admin-exit {
+  display: grid;
+  width: 50px;
+  padding-top: 20px;
+  grid-template-rows: 25px 25px;
+  grid-gap: 10px;
+}
+
+.technique, .personal, .admin, .exit {
+  padding-top: 3px;
+  padding-left: 10px;
+  transition: background-color 0.2s ease-in;
+}
+
+.technique:hover, .personal:hover, .admin:hover, .exit:hover {
+  border-left: 3px solid #33AAFF;
+  background-color: #E5F4FF;
+}
+
+.technique:active, .personal:active, .technique:active svg path, .personal:active svg path{
+  background: linear-gradient(#2D49D2, #2D47D2);
+  border-left: 3px solid;
+  border-image: linear-gradient(to bottom, #33A9FF, #2D47D2) 1;
+  fill: white;
+}
+
+header .container {
+  display: flex;
+  justify-content: flex-end;
+}
+.navigation {
+  display: flex; /* Используем flexbox для размещения иконок */
+  gap: 15px; /* Расстояние между иконками */
+}
+
+.navigation a {
+  display: flex;
+  align-items: center;
+}
+
+.navigation a:hover svg circle:first-child {
+  fill: #33AAFF;
+}
+.navigation a:active svg circle:first-child {
+  fill: #2439A8;
+}
