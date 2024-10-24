@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
+import {VisibilityService} from "../../services/visibility.service";
 
 @Component({
   selector: 'app-aside',
@@ -11,5 +12,9 @@ import {NgOptimizedImage} from "@angular/common";
   styleUrl: './aside.component.css'
 })
 export class AsideComponent {
+  private visibilityService = inject(VisibilityService);
 
+  showStuffTable() {
+    this.visibilityService.toggleVisibility(true);
+  }
 }
