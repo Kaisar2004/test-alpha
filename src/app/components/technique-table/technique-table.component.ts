@@ -36,12 +36,12 @@ export class TechniqueTableComponent implements OnInit{
   private visibilityService = inject(VisibilityService);
 
   ngOnInit() {
-    this.visibilityService.visibility$.subscribe(isVisible => {
+    this.visibilityService.techniqueVisibility$.subscribe(isVisible => {
       this.isVisible = isVisible;
     });
   }
 
-  public hideTechniqueTable() {
-    this.visibilityService.toggleVisibility(false);
+  hideTechniqueTable() {
+    this.visibilityService.toggleTechniqueVisibility(false);
   }
 }

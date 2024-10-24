@@ -2,24 +2,18 @@
 header .container {
   display: flex;
   justify-content: flex-end;
-
-  .navigation {
-    display: flex;
-    gap: 15px;
-
-    .navigation a {
-      display: flex;
-      align-items: center;
-
-      .navigation a:hover svg circle:first-child {
-        fill: #33AAFF;
-      }
-      .navigation a:active svg circle:first-child {
-        fill: #2439A8;
-      }
-    }
-  }
 }
-
-
-
+.navigation {
+  display: flex;
+  gap: 15px;
+}
+.navigation a {
+  display: flex;
+  align-items: center;
+}
+.navigation a:hover svg circle:first-child {
+  fill: #33AAFF;
+}
+.navigation a:active svg circle:first-child {
+  fill: #2439A8;
+}

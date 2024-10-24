@@ -15,9 +15,12 @@ export class AsideComponent {
   private visibilityService = inject(VisibilityService);
 
   showStuffTable() {
-    this.visibilityService.toggleVisibility(true);
+    this.visibilityService.toggleStuffVisibility(true);  // Только персонал
+    this.visibilityService.toggleTechniqueVisibility(false); // Скрыть технику
   }
+
   showTechniqueTable() {
-    this.visibilityService.toggleVisibility(true);
+    this.visibilityService.toggleTechniqueVisibility(true);  // Только техника
+    this.visibilityService.toggleStuffVisibility(false); // Скрыть персонал
   }
 }

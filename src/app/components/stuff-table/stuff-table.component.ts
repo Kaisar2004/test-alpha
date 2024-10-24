@@ -36,12 +36,12 @@ export class StuffTableComponent implements OnInit{
   private visibilityService = inject(VisibilityService);
 
   ngOnInit() {
-    this.visibilityService.visibility$.subscribe(isVisible => {
+    this.visibilityService.stuffVisibility$.subscribe(isVisible => {
       this.isVisible = isVisible;
     });
   }
 
-  public hideStuffTable() {
-    this.visibilityService.toggleVisibility(false);
+  hideStuffTable() {
+    this.visibilityService.toggleStuffVisibility(false);
   }
 }
