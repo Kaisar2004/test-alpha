@@ -5,11 +5,20 @@ import {BehaviorSubject} from "rxjs";
   providedIn: 'root'
 })
 export class VisibilityService {
-  private visibilitySource = new BehaviorSubject<boolean>(false);
-  visibility$ = this.visibilitySource.asObservable();
+  private techniqueVisibilitySource = new BehaviorSubject<boolean>(false);
+  private stuffVisibilitySource = new BehaviorSubject<boolean>(false);
 
-  toggleVisibility(isVisible: boolean) {
-    this.visibilitySource.next(isVisible);
+  // Экспозиция Observable для каждой таблицы
+  techniqueVisibility$ = this.techniqueVisibilitySource.asObservable();
+  stuffVisibility$ = this.stuffVisibilitySource.asObservable();
+
+  // Методы для управления видимостью каждой таблицы
+  toggleTechniqueVisibility(isVisible: boolean) {
+    this.techniqueVisibilitySource.next(isVisible);
+  }
+
+  toggleStuffVisibility(isVisible: boolean) {
+    this.stuffVisibilitySource.next(isVisible);
   }
   constructor() { }
 }
