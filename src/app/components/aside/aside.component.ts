@@ -17,4 +17,7 @@ export class AsideComponent {
   showStuffTable() {
     this.visibilityService.toggleVisibility(true);
   }
+  showTechniqueTable() {
+    this.visibilityService.toggleVisibility(true);
+  }
 }
