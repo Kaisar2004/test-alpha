@@ -24,8 +24,6 @@ export class AsideComponent implements OnInit{
       document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
     });
 
-
-
     this.visibilityService.closeTechnique$.subscribe(() => {
       this.isTechniqueActive = false;
       document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
