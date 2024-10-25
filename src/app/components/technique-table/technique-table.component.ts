@@ -32,7 +32,7 @@ export class TechniqueTableComponent implements OnInit{
     },
   ];
 
-  isVisible = false;
+  public isVisible = false;
   private visibilityService = inject(VisibilityService);
 
   ngOnInit() {
