@@ -4,9 +4,10 @@ header .container {
   justify-content: flex-end;
   position: fixed;
   top: 0;
-  right: 0;
+  right: 10px;
   padding: 10px 10px 0 0;
 }
+
 .navigation {
   display: flex;
   gap: 15px;
@@ -15,6 +16,84 @@ header .container {
 .navigation a:hover svg circle:first-child {
   fill: #33AAFF;
 }
+
 .navigation a:active svg circle:first-child {
   fill: #2439A8;
 }
+
+.message-popup {
+  z-index: -9999;
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  width: 490px;
+  height: 85vh;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px 0;
+  border-radius: 10px;
+
+  .message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #E0E4F5;
+
+
+    .message-title {
+      font-family: "Roboto Medium", sans-serif;
+      font-size: 15px;
+      padding: 0 0 10px 20px;
+
+      .message-count {
+        font-family: "Roboto Medium", sans-serif;
+        font-size: 16px;
+        color: white;
+        background-color: #FC6C6C;
+        padding: 4px 10px;
+        border-radius: 15px;
+      }
+    }
+    .message-exit {
+      padding-right: 20px;
+    }
+  }
+
+  .message-info {
+    padding: 10px 20px;
+    display: grid;
+    grid-template-columns: 50px 280px 120px;
+    grid-gap: 10px;
+    border-bottom: 1px solid #E0E2EB;
+
+    .message-image-tab {
+      display: flex;
+      flex-direction: column;
+      width: 50px;
+
+      .message-tab {
+        background-color: #E5F4FF;
+        text-align: center;
+        font-family: "Roboto Medium", sans-serif;
+        color: #33374D;
+      }
+    }
+
+    .message-name-chat {
+
+      .message-name {
+        font-family: "Roboto Medium", sans-serif;
+        font-size: 16px;
+      }
+      .message-chat {
+        font-size: 15px;
+        padding-top: 10px;
+      }
+    }
+
+    .message-date {
+      color: #A3A8C2;
+      font-size: 14px;
+    }
+  }
+}
+
