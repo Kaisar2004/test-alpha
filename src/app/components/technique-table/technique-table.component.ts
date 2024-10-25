@@ -43,5 +43,6 @@ export class TechniqueTableComponent implements OnInit{
 
   hideTechniqueTable() {
     this.visibilityService.toggleTechniqueVisibility(false);
+    this.visibilityService.closeTechnique();
   }
 }

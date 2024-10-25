@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {VisibilityService} from "../../services/visibility.service";
 
@@ -32,7 +32,7 @@ export class StuffTableComponent implements OnInit{
     },
   ];
 
-  isVisible = false;
+  public isVisible = false;
   private visibilityService = inject(VisibilityService);
 
   ngOnInit() {
@@ -43,5 +43,6 @@ export class StuffTableComponent implements OnInit{
 
   hideStuffTable() {
     this.visibilityService.toggleStuffVisibility(false);
+    this.visibilityService.closePersonnel();
   }
 }

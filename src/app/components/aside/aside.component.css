@@ -40,21 +40,33 @@ aside {
   grid-gap: 10px;
 }
 
-.technique, .stuff, .admin, .exit {
+#technique, #stuff, .admin, .exit {
   padding-top: 3px;
   padding-left: 10px;
   transition: background-color 0.2s ease-in;
 }
 
-.technique:hover, .stuff:hover, .admin:hover, .exit:hover {
+#technique:hover, #stuff:hover, .admin:hover, .exit:hover {
   border-left: 3px solid #33AAFF;
   background-color: #E5F4FF;
 }
 
-.technique:active, .stuff:active, .technique:active svg path, .stuff:active svg path{
-  background: linear-gradient(#2D49D2, #2D47D2);
-  border-left: 3px solid;
-  border-image: linear-gradient(to bottom, #33A9FF, #2D47D2) 1;
+svg.active-technique path,
+svg.active-stuff path {
   fill: white;
 }
 
+.active-technique, .active-stuff {
+  width: 50px;
+  background: linear-gradient(#2D49D2, #2D47D2);
+  border-left: 3px solid;
+  border-image: linear-gradient(to bottom, #33A9FF, #2D47D2) 1;
+}
+
+#technique.active:hover, #stuff.active:hover {
+  border-left: none;
+  background-color: transparent;
+}
+#technique.active, #stuff.active, .admin.active, .exit.active {
+  padding-left: 0;
+}

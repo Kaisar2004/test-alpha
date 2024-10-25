@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +18,19 @@ export class VisibilityService {
   toggleStuffVisibility(isVisible: boolean) {
     this.stuffVisibilitySource.next(isVisible);
   }
-  constructor() { }
+
+
+  private _closePersonnel = new Subject<void>();
+  private _closeTechnique = new Subject<void>();
+
+  public closePersonnel$ = this._closePersonnel.asObservable();
+  public closeTechnique$ = this._closeTechnique.asObservable();
+
+  closePersonnel() {
+    this._closePersonnel.next();
+  }
+
+  closeTechnique() {
+    this._closeTechnique.next();
+  }
 }
