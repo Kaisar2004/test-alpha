@@ -58,6 +58,7 @@ svg.active-stuff path {
 
 .active-technique, .active-stuff {
   width: 50px;
+  height: 20px;
   background: linear-gradient(#2D49D2, #2D47D2);
   border-left: 3px solid;
   border-image: linear-gradient(to bottom, #33A9FF, #2D47D2) 1;
