@@ -17,7 +17,7 @@ header .container {
   fill: #33AAFF;
 }
 
-.message-popup {
+.message-popup, .devices-popup {
   z-index: -9999;
   position: fixed;
   top: 50px;
@@ -28,19 +28,19 @@ header .container {
   padding: 20px 0;
   border-radius: 10px;
 
-  .message-header {
+  .message-header, .devices-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #E0E4F5;
 
 
-    .message-title {
+    .message-title, .devices-title {
       font-family: "Roboto Medium", sans-serif;
       font-size: 15px;
       padding: 0 0 10px 20px;
 
-      .message-count {
+      .message-count, .devices-count {
         font-family: "Roboto Medium", sans-serif;
         font-size: 16px;
         color: white;
@@ -49,7 +49,8 @@ header .container {
         border-radius: 15px;
       }
     }
-    .message-exit {
+
+    .message-exit, .devices-exit {
       padding-right: 20px;
     }
   }
@@ -80,6 +81,7 @@ header .container {
         font-family: "Roboto Medium", sans-serif;
         font-size: 16px;
       }
+
       .message-chat {
         font-size: 15px;
         padding-top: 10px;
@@ -93,9 +95,38 @@ header .container {
   }
 }
 
-svg.active-message circle:first-child {
+.devices-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border-radius: 5px;
+  margin-top: 5px;
+
+  .devices-image-name {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+}
+
+.devices-info:nth-child(1),
+.devices-info:nth-child(4) {
+  box-shadow: 0px 0.5px 2px 0px #60617029;
+}
+
+.devices-info:nth-child(2) {
+  background-color: #F0F9FF;
+}
+
+.devices-info:nth-child(3) {
+  background-color: #E6E9FA;
+}
+
+svg.active-message circle:first-child, svg.active-devices circle:first-child {
   fill: #2439A8;
 }
+
 .navigation a:hover svg circle:first-child {
   fill: #33AAFF;
 }
