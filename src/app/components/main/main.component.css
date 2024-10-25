@@ -17,10 +17,6 @@ header .container {
   fill: #33AAFF;
 }
 
-.navigation a:active svg circle:first-child {
-  fill: #2439A8;
-}
-
 .message-popup {
   z-index: -9999;
   position: fixed;
@@ -97,3 +93,13 @@ header .container {
   }
 }
 
+svg.active-message circle:first-child {
+  fill: #2439A8;
+}
+.navigation a:hover svg circle:first-child {
+  fill: #33AAFF;
+}
+
+.navigation a.no-hover:hover svg circle:first-child {
+  fill: #2439A8;
+}

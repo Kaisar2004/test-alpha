@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {VisibilityService} from "../../services/visibility.service";
 
 @Component({
@@ -8,7 +8,8 @@ import {VisibilityService} from "../../services/visibility.service";
   imports: [
     NgForOf,
     NgOptimizedImage,
-    NgIf
+    NgIf,
+    NgClass
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
@@ -32,19 +33,36 @@ export class MainComponent implements OnInit{
   ];
 
   public isVisible = false;
+  public isMessageActive = false;
   private visibilityService = inject(VisibilityService);
 
   ngOnInit() {
     this.visibilityService.messageVisibility$.subscribe(isVisible => {
       this.isVisible = isVisible;
     });
+
+    this.visibilityService.closeMessage$.subscribe(() => {
+      this.isMessageActive = false;
+      document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.no-hover').forEach(el => el.classList.remove('no-hover'));
+    });
   }
 
 
   showMessageWindow(event: Event, elementId: string) {
     this.visibilityService.toggleMessageVisibility(true);
+
+    if(this.isMessageActive) return;
+    this.isMessageActive = !this.isMessageActive;
+
+    const target = document.getElementById(elementId);
+    if (target) {
+      document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+      target.classList.add('active', 'no-hover');
+    }
   }
   hideMessage() {
     this.visibilityService.toggleMessageVisibility(false);
+    this.visibilityService.closeMessage();
   }
 }
