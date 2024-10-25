@@ -28,9 +28,11 @@ export class VisibilityService {
 
   private _closePersonnel = new Subject<void>();
   private _closeTechnique = new Subject<void>();
+  private _closeMessage = new Subject<void>();
 
   public closePersonnel$ = this._closePersonnel.asObservable();
   public closeTechnique$ = this._closeTechnique.asObservable();
+  public closeMessage$ = this._closeMessage.asObservable();
 
   closePersonnel() {
     this._closePersonnel.next();
@@ -38,5 +40,9 @@ export class VisibilityService {
 
   closeTechnique() {
     this._closeTechnique.next();
+  }
+
+  closeMessage() {
+    this._closeMessage.next();
   }
 }
