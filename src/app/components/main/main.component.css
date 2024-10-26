@@ -17,6 +17,17 @@ header .container {
   fill: #33AAFF;
 }
 
+main {
+  margin-top: 100px;
+  margin-left: 50px;
+}
+.map-container {
+  margin: 0 auto;
+  width: 60vw;
+  height: 80vh;
+}
+
+
 .message-popup, .devices-popup {
   z-index: -9999;
   position: fixed;
