@@ -1,6 +1,13 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {VisibilityService} from "../../services/visibility.service";
+import TileLayer from "ol/layer/Tile";
+import {OSM} from "ol/source";
+import Map from 'ol/Map';
+import {View} from "ol";
+import {fromLonLat} from "ol/proj";
+import {Graticule} from "ol/layer";
+import {Stroke} from "ol/style";
 
 @Component({
   selector: 'app-main',
@@ -58,6 +65,8 @@ export class MainComponent implements OnInit{
   private visibilityService = inject(VisibilityService);
 
   ngOnInit() {
+    this.initializeMap();
+
     this.visibilityService.messageVisibility$.subscribe(isVisible => {
       this.isMessageVisible = isVisible;
     });
@@ -118,5 +127,38 @@ export class MainComponent implements OnInit{
   hideDevice() {
     this.visibilityService.toggleDeviceVisibility(false);
     this.visibilityService.closeDevice();
+  }
+
+  private map: Map | undefined;
+
+  @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
+
+
+  private initializeMap(): void {
+    const zoomLevel = 18;
+
+    this.map = new Map({
+      target: this.mapContainer.nativeElement,
+      layers: [
+        new TileLayer({
+          source: new OSM()
+        }),
+
+        new Graticule({
+          strokeStyle: new Stroke({
+            color: 'rgba(0, 0, 0, 0)',
+            width: 1
+          }),
+          showLabels: true,
+          wrapX: false,
+        })
+      ],
+      view: new View({
+        center: fromLonLat([2.3522, 48.8566]),
+        zoom: zoomLevel,
+        minZoom: zoomLevel,
+        maxZoom: zoomLevel
+      })
+    });
   }
 }
