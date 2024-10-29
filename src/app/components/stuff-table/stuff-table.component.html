@@ -1,7 +1,7 @@
 <div class="stuff-table" *ngIf="isVisible">
 
   <div class="table-header">
-    <div class="stuff-count">Персонал <span class="personnel-count">{{ info.length }}</span></div>
+    <div class="stuff-count">Персонал <span class="personnel-count">{{ stuff.length }}</span></div>
 
     <div class="table-header-icons">
       <div class="table-search">
@@ -89,7 +89,7 @@
         </svg>
       </div>
     </div>
-    <div class="table-bottom-section" *ngFor="let item of info">
+    <div class="table-bottom-section" *ngFor="let item of stuff">
       <input type="checkbox">
 
       <div class="energy-bottom">
