@@ -24,6 +24,8 @@ input[type="checkbox"] {
 }
 
 .technique-table {
+  z-index: 9999;
+  background-color: white;
   padding-left: 20px;
   padding-top: 20px;
   width: 840px;

@@ -24,11 +24,13 @@ input[type="checkbox"] {
 }
 
 .stuff-table {
+  z-index: 9999;
   padding-left: 20px;
   padding-top: 20px;
   width: 840px;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
   height: 100vh;
+  background-color: white;
 
   .table-header {
     display: flex;

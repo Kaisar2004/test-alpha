@@ -22,9 +22,13 @@ main {
   margin-left: 50px;
 }
 .map-container {
+  z-index: -9999;
   margin: 0 auto;
-  width: 60vw;
+  width: 90vw;
   height: 80vh;
+  position: fixed;
+  top: 50px;
+  right: 30px;
 }
 
 
