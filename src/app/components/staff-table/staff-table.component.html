@@ -1,7 +1,7 @@
-<div class="stuff-table" *ngIf="isVisible">
+<div class="staff-table" *ngIf="isVisible">
 
   <div class="table-header">
-    <div class="stuff-count">Персонал <span class="personnel-count">{{ stuff.length }}</span></div>
+    <div class="staff-count">Персонал <span class="personnel-count">{{ staff.length }}</span></div>
 
     <div class="table-header-icons">
       <div class="table-search">
@@ -18,7 +18,7 @@
             fill="#40BF6A"/>
         </svg>
       </div>
-      <div class="table-exit"  (click)="hideStuffTable()">
+      <div class="table-exit"  (click)="hidestaffTable()">
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M7.80024 6.28572L12.0932 1.99272C12.4842 1.60172 12.4842 0.969715 12.0932 0.578715C11.7022 0.187715 11.0702 0.187715 10.6792 0.578715L6.38624 4.87172L2.09324 0.578715C1.70224 0.187715 1.07024 0.187715 0.679236 0.578715C0.288236 0.969715 0.288236 1.60172 0.679236 1.99272L4.97224 6.28572L0.679236 10.5787C0.288236 10.9697 0.288236 11.6017 0.679236 11.9927C0.874236 12.1877 1.13024 12.2857 1.38624 12.2857C1.64224 12.2857 1.89824 12.1877 2.09324 11.9927L6.38624 7.69972L10.6792 11.9927C10.8742 12.1877 11.1302 12.2857 11.3862 12.2857C11.6422 12.2857 11.8982 12.1877 12.0932 11.9927C12.4842 11.6017 12.4842 10.9697 12.0932 10.5787L7.80024 6.28572Z" fill="#A3A8C2"/>
         </svg>
@@ -89,7 +89,7 @@
         </svg>
       </div>
     </div>
-    <div class="table-bottom-section" *ngFor="let item of stuff">
+    <div class="table-bottom-section" *ngFor="let item of staff">
       <input type="checkbox">
 
       <div class="energy-bottom">

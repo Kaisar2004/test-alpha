@@ -6,12 +6,12 @@ import {BehaviorSubject, Subject} from "rxjs";
 })
 export class VisibilityService {
   private techniqueVisibilitySource = new BehaviorSubject<boolean>(false);
-  private stuffVisibilitySource = new BehaviorSubject<boolean>(false);
+  private staffVisibilitySource = new BehaviorSubject<boolean>(false);
   private messageVisibilitySource = new BehaviorSubject<boolean>(false);
   private deviceVisibilitySource = new BehaviorSubject<boolean>(false);
 
   techniqueVisibility$ = this.techniqueVisibilitySource.asObservable();
-  stuffVisibility$ = this.stuffVisibilitySource.asObservable();
+  staffVisibility$ = this.staffVisibilitySource.asObservable();
   messageVisibility$ = this.messageVisibilitySource.asObservable();
   deviceVisibility$ = this.deviceVisibilitySource.asObservable();
 
@@ -19,8 +19,8 @@ export class VisibilityService {
     this.techniqueVisibilitySource.next(isVisible);
   }
 
-  toggleStuffVisibility(isVisible: boolean) {
-    this.stuffVisibilitySource.next(isVisible);
+  togglestaffVisibility(isVisible: boolean) {
+    this.staffVisibilitySource.next(isVisible);
   }
 
   toggleMessageVisibility(isVisible: boolean) {

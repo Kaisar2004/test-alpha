@@ -33,7 +33,7 @@ aside {
   padding: 8px;
 }
 
-.technique-stuff, .admin-exit {
+.technique-staff, .admin-exit {
   display: grid;
   width: 50px;
   padding-top: 20px;
@@ -41,23 +41,23 @@ aside {
   grid-gap: 10px;
 }
 
-#technique, #stuff, .admin, .exit {
+#technique, #staff, .admin, .exit {
   padding-top: 3px;
   padding-left: 10px;
   transition: background-color 0.2s ease-in;
 }
 
-#technique:hover, #stuff:hover, .admin:hover, .exit:hover {
+#technique:hover, #staff:hover, .admin:hover, .exit:hover {
   border-left: 3px solid #33AAFF;
   background-color: #E5F4FF;
 }
 
 svg.active-technique path,
-svg.active-stuff path {
+svg.active-staff path {
   fill: white;
 }
 
-.active-technique, .active-stuff {
+.active-technique, .active-staff {
   width: 50px;
   height: 20px;
   background: linear-gradient(#2D49D2, #2D47D2);
@@ -65,10 +65,10 @@ svg.active-stuff path {
   border-image: linear-gradient(to bottom, #33A9FF, #2D47D2) 1;
 }
 
-#technique.active:hover, #stuff.active:hover {
+#technique.active:hover, #staff.active:hover {
   border-left: none;
   background-color: transparent;
 }
-#technique.active, #stuff.active, .admin.active, .exit.active {
+#technique.active, #staff.active, .admin.active, .exit.active {
   padding-left: 0;
 }

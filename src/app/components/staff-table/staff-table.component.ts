@@ -4,31 +4,31 @@ import {VisibilityService} from "../../services/visibility.service";
 import {DataService} from "../../services/data.service";
 
 @Component({
-  selector: 'app-stuff-table',
+  selector: 'app-staff-table',
   standalone: true,
   imports: [
     NgForOf,
     NgIf
   ],
-  templateUrl: './stuff-table.component.html',
-  styleUrl: './stuff-table.component.css'
+  templateUrl: './staff-table.component.html',
+  styleUrl: './staff-table.component.css'
 })
-export class StuffTableComponent implements OnInit{
+export class staffTableComponent implements OnInit{
   public isVisible = false;
 
   private visibilityService = inject(VisibilityService);
   private dataService = inject(DataService);
 
-  public stuff = this.dataService.stuff;
+  public staff = this.dataService.staff;
 
   ngOnInit() {
-    this.visibilityService.stuffVisibility$.subscribe(isVisible => {
+    this.visibilityService.staffVisibility$.subscribe(isVisible => {
       this.isVisible = isVisible;
     });
   }
 
-  hideStuffTable() {
-    this.visibilityService.toggleStuffVisibility(false);
+  hidestaffTable() {
+    this.visibilityService.togglestaffVisibility(false);
     this.visibilityService.closePersonnel();
   }
 }

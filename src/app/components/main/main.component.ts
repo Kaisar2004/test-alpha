@@ -71,7 +71,7 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.initializeMap();
     this.startMarkerMovement();
-
+    console.log(this.staffMarkerFeature);
     this.visibilityService.messageVisibility$.subscribe(isVisible => {
       this.isMessageVisible = isVisible;
     });
@@ -137,25 +137,80 @@ export class MainComponent implements OnInit {
   }
 
   private map: Map | undefined;
-  private markerFeature1!: Feature;
-  private markerFeature2!: Feature;
+  private staffMarkerFeature!: Feature;
+  private techniqueMarkerFeature!: Feature;
   private markerInterval: any;
 
   @ViewChild('mapContainer', {static: true}) mapContainer!: ElementRef;
 
+  // private initializeMap(): void {
+  //   this.markerFeature1 = new Feature({
+  //     geometry: new Point(fromLonLat([2.3522, 48.8566]))
+  //   });
+  //   this.markerFeature2 = new Feature({
+  //     geometry: new Point(fromLonLat([2.3530, 48.8550]))
+  //   });
+  //
+  //   // https://i.imgur.com/aYj6dxJ.png техника
+  //   const markerLayer = new VectorLayer({
+  //     source: new VectorSource({
+  //       features: [this.markerFeature1, this.markerFeature2]
+  //     }),
+  //     style: new Style({
+  //       image: new Icon({
+  //         src: 'https://i.imgur.com/9QGehBP.png',
+  //         anchor: [0.5, 1],
+  //         scale: 0.1
+  //       })
+  //     })
+  //   });
+  //   const markerLayer2 = new VectorLayer({
+  //     source: new VectorSource({
+  //       features: [this.markerFeature2]
+  //     }),
+  //     style: new Style({
+  //       image: new Icon({
+  //         src: 'https://i.imgur.com/aYj6dxJ.png',
+  //         anchor: [0.5, 1],
+  //         scale: 0.1
+  //       })
+  //     })
+  //   });
+  //
+  //   this.map = new Map({
+  //     target: this.mapContainer.nativeElement,
+  //     layers: [
+  //       new TileLayer({
+  //         source: new OSM()
+  //       }),
+  //       markerLayer, markerLayer2
+  //     ],
+  //     view: new View({
+  //       center: fromLonLat([2.3522, 48.8566]), // Начальная точка на карте
+  //       zoom: 14
+  //     }),
+  //   });
+  // };
   private initializeMap(): void {
-    this.markerFeature1 = new Feature({
-      geometry: new Point(fromLonLat([2.3522, 48.8566]))
-    });
-    this.markerFeature2 = new Feature({
-      geometry: new Point(fromLonLat([2.3530, 48.8550]))
+    const markerSourcestaff = new VectorSource();
+    const markerSourceTechnique = new VectorSource();
+
+    this.dataService.staff.forEach((_, index) => {
+      this.staffMarkerFeature = new Feature({
+        geometry: new Point(fromLonLat([2.3522 + (index * 0.01), 48.8566])) // Корректируем координаты для примера
+      });
+      markerSourcestaff.addFeature(this.staffMarkerFeature);
     });
 
-    // https://i.imgur.com/aYj6dxJ.png техника
-    const markerLayer = new VectorLayer({
-      source: new VectorSource({
-        features: [this.markerFeature1, this.markerFeature2]
-      }),
+    this.dataService.technique.forEach((_, index) => {
+      this.techniqueMarkerFeature = new Feature({
+        geometry: new Point(fromLonLat([2.3600 + (index * 0.01), 48.8600])) // Корректируем координаты для примера
+      });
+      markerSourceTechnique.addFeature(this.techniqueMarkerFeature);
+    });
+
+    const staffMarkerLayer = new VectorLayer({
+      source: markerSourcestaff,
       style: new Style({
         image: new Icon({
           src: 'https://i.imgur.com/9QGehBP.png',
@@ -163,11 +218,9 @@ export class MainComponent implements OnInit {
           scale: 0.1
         })
       })
-    });
-    const markerLayer2 = new VectorLayer({
-      source: new VectorSource({
-        features: [this.markerFeature2]
-      }),
+    });// Устанавливаем слой с маркерами
+    const techniqueMarkerLayer = new VectorLayer({
+      source: markerSourceTechnique,
       style: new Style({
         image: new Icon({
           src: 'https://i.imgur.com/aYj6dxJ.png',
@@ -177,16 +230,17 @@ export class MainComponent implements OnInit {
       })
     });
 
+    // Инициализируем карту с добавлением слоя маркеров
     this.map = new Map({
       target: this.mapContainer.nativeElement,
       layers: [
         new TileLayer({
           source: new OSM()
         }),
-        markerLayer, markerLayer2
+        staffMarkerLayer, techniqueMarkerLayer
       ],
       view: new View({
-        center: fromLonLat([2.3522, 48.8566]), // Начальная точка на карте
+        center: fromLonLat([2.3522, 48.8566]),
         zoom: 14
       }),
     });
@@ -194,8 +248,8 @@ export class MainComponent implements OnInit {
 
   private startMarkerMovement(): void {
     this.markerInterval = setInterval(() => {
-      const currentCoords1 = (this.markerFeature1.getGeometry() as Point).getCoordinates();
-      const currentCoords2 = (this.markerFeature2.getGeometry() as Point).getCoordinates();
+      const currentCoords1 = (this.staffMarkerFeature.getGeometry() as Point).getCoordinates();
+      const currentCoords2 = (this.techniqueMarkerFeature.getGeometry() as Point).getCoordinates();
 
       const newCoords1 = [
         currentCoords1[0] + (Math.random() - 0.5) * 500,
@@ -206,8 +260,8 @@ export class MainComponent implements OnInit {
         currentCoords2[1] + (Math.random() - 0.5) * 500,
       ];
 
-      (this.markerFeature1.getGeometry() as Point)?.setCoordinates(newCoords1);
-      (this.markerFeature2.getGeometry() as Point)?.setCoordinates(newCoords2);
+      (this.staffMarkerFeature.getGeometry() as Point)?.setCoordinates(newCoords1);
+      (this.techniqueMarkerFeature.getGeometry() as Point)?.setCoordinates(newCoords2);
     }, 5000);
   }
 }

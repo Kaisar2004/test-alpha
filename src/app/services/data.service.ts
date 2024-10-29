@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DataService {
-  public stuff = [
+  public staff = [
     {
       energy: 3,
       tab: 92051,
