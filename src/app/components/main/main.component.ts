@@ -4,10 +4,13 @@ import {VisibilityService} from "../../services/visibility.service";
 import TileLayer from "ol/layer/Tile";
 import {OSM} from "ol/source";
 import Map from 'ol/Map';
-import {View} from "ol";
+import {Feature, View} from "ol";
 import {fromLonLat} from "ol/proj";
-import {Graticule} from "ol/layer";
-import {Stroke} from "ol/style";
+import {Icon, Style} from "ol/style";
+import VectorLayer from "ol/layer/Vector";
+import VectorSource from "ol/source/Vector";
+import {Point} from "ol/geom";
+import {DataService} from "../../services/data.service";
 
 @Component({
   selector: 'app-main',
@@ -21,7 +24,7 @@ import {Stroke} from "ol/style";
   templateUrl: './main.component.html',
   styleUrl: './main.component.css'
 })
-export class MainComponent implements OnInit{
+export class MainComponent implements OnInit {
   public messages = [
     {
       image: "../../../assets/images/avatar.png",
@@ -63,9 +66,11 @@ export class MainComponent implements OnInit{
   public isDeviceActive = false;
 
   private visibilityService = inject(VisibilityService);
+  private dataService = inject(DataService);
 
   ngOnInit() {
     this.initializeMap();
+    this.startMarkerMovement();
 
     this.visibilityService.messageVisibility$.subscribe(isVisible => {
       this.isMessageVisible = isVisible;
@@ -95,7 +100,7 @@ export class MainComponent implements OnInit{
     this.visibilityService.toggleMessageVisibility(true);
     this.visibilityService.toggleDeviceVisibility(false);
 
-    if(this.isMessageActive) return;
+    if (this.isMessageActive) return;
     this.isMessageActive = !this.isMessageActive;
     this.isDeviceActive = false;
 
@@ -110,7 +115,7 @@ export class MainComponent implements OnInit{
     this.visibilityService.toggleDeviceVisibility(true);
     this.visibilityService.toggleMessageVisibility(false);
 
-    if(this.isDeviceActive) return;
+    if (this.isDeviceActive) return;
     this.isDeviceActive = !this.isDeviceActive;
     this.isMessageActive = false;
 
@@ -120,22 +125,57 @@ export class MainComponent implements OnInit{
       target.classList.add('active', 'no-hover');
     }
   }
+
   hideMessage() {
     this.visibilityService.toggleMessageVisibility(false);
     this.visibilityService.closeMessage();
   }
+
   hideDevice() {
     this.visibilityService.toggleDeviceVisibility(false);
     this.visibilityService.closeDevice();
   }
 
   private map: Map | undefined;
+  private markerFeature1!: Feature;
+  private markerFeature2!: Feature;
+  private markerInterval: any;
 
-  @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
-
+  @ViewChild('mapContainer', {static: true}) mapContainer!: ElementRef;
 
   private initializeMap(): void {
-    const zoomLevel = 18;
+    this.markerFeature1 = new Feature({
+      geometry: new Point(fromLonLat([2.3522, 48.8566]))
+    });
+    this.markerFeature2 = new Feature({
+      geometry: new Point(fromLonLat([2.3530, 48.8550]))
+    });
+
+    // https://i.imgur.com/aYj6dxJ.png техника
+    const markerLayer = new VectorLayer({
+      source: new VectorSource({
+        features: [this.markerFeature1, this.markerFeature2]
+      }),
+      style: new Style({
+        image: new Icon({
+          src: 'https://i.imgur.com/9QGehBP.png',
+          anchor: [0.5, 1],
+          scale: 0.1
+        })
+      })
+    });
+    const markerLayer2 = new VectorLayer({
+      source: new VectorSource({
+        features: [this.markerFeature2]
+      }),
+      style: new Style({
+        image: new Icon({
+          src: 'https://i.imgur.com/aYj6dxJ.png',
+          anchor: [0.5, 1],
+          scale: 0.1
+        })
+      })
+    });
 
     this.map = new Map({
       target: this.mapContainer.nativeElement,
@@ -143,22 +183,31 @@ export class MainComponent implements OnInit{
         new TileLayer({
           source: new OSM()
         }),
-
-        new Graticule({
-          strokeStyle: new Stroke({
-            color: 'rgba(0, 0, 0, 0)',
-            width: 1
-          }),
-          showLabels: true,
-          wrapX: false,
-        })
+        markerLayer, markerLayer2
       ],
       view: new View({
-        center: fromLonLat([2.3522, 48.8566]),
-        zoom: zoomLevel,
-        minZoom: zoomLevel,
-        maxZoom: zoomLevel
-      })
+        center: fromLonLat([2.3522, 48.8566]), // Начальная точка на карте
+        zoom: 14
+      }),
     });
+  };
+
+  private startMarkerMovement(): void {
+    this.markerInterval = setInterval(() => {
+      const currentCoords1 = (this.markerFeature1.getGeometry() as Point).getCoordinates();
+      const currentCoords2 = (this.markerFeature2.getGeometry() as Point).getCoordinates();
+
+      const newCoords1 = [
+        currentCoords1[0] + (Math.random() - 0.5) * 500,
+        currentCoords1[1] + (Math.random() - 0.5) * 500,
+      ];
+      const newCoords2 = [
+        currentCoords2[0] + (Math.random() - 0.5) * 500,
+        currentCoords2[1] + (Math.random() - 0.5) * 500,
+      ];
+
+      (this.markerFeature1.getGeometry() as Point)?.setCoordinates(newCoords1);
+      (this.markerFeature2.getGeometry() as Point)?.setCoordinates(newCoords2);
+    }, 5000);
   }
 }
