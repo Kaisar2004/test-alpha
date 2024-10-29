@@ -192,14 +192,14 @@ export class MainComponent implements OnInit {
   //   });
   // };
   private initializeMap(): void {
-    const markerSourcestaff = new VectorSource();
+    const markerSourceStaff = new VectorSource();
     const markerSourceTechnique = new VectorSource();
 
     this.dataService.staff.forEach((_, index) => {
       this.staffMarkerFeature = new Feature({
         geometry: new Point(fromLonLat([2.3522 + (index * 0.01), 48.8566])) // Корректируем координаты для примера
       });
-      markerSourcestaff.addFeature(this.staffMarkerFeature);
+      markerSourceStaff.addFeature(this.staffMarkerFeature);
     });
 
     this.dataService.technique.forEach((_, index) => {
@@ -210,7 +210,7 @@ export class MainComponent implements OnInit {
     });
 
     const staffMarkerLayer = new VectorLayer({
-      source: markerSourcestaff,
+      source: markerSourceStaff,
       style: new Style({
         image: new Icon({
           src: 'https://i.imgur.com/9QGehBP.png',

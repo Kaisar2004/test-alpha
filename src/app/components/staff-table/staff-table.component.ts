@@ -27,8 +27,8 @@ export class staffTableComponent implements OnInit{
     });
   }
 
-  hidestaffTable() {
-    this.visibilityService.togglestaffVisibility(false);
+  hideStaffTable() {
+    this.visibilityService.toggleStaffVisibility(false);
     this.visibilityService.closePersonnel();
   }
 }

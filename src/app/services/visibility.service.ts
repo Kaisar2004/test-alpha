@@ -19,7 +19,7 @@ export class VisibilityService {
     this.techniqueVisibilitySource.next(isVisible);
   }
 
-  togglestaffVisibility(isVisible: boolean) {
+  toggleStaffVisibility(isVisible: boolean) {
     this.staffVisibilitySource.next(isVisible);
   }
 

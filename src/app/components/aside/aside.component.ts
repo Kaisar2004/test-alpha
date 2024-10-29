@@ -16,11 +16,11 @@ import {VisibilityService} from "../../services/visibility.service";
 export class AsideComponent implements OnInit{
   private visibilityService = inject(VisibilityService);
   public isTechniqueActive = false;
-  public isstaffActive = false;
+  public isStaffActive = false;
 
   ngOnInit() {
     this.visibilityService.closePersonnel$.subscribe(() => {
-      this.isstaffActive = false;
+      this.isStaffActive = false;
       document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
     });
 
@@ -29,12 +29,12 @@ export class AsideComponent implements OnInit{
       document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
     });
   }
-  showstaffTable(event: Event, elementId: string) {
-    this.visibilityService.togglestaffVisibility(true);
+  showStaffTable(event: Event, elementId: string) {
+    this.visibilityService.toggleStaffVisibility(true);
     this.visibilityService.toggleTechniqueVisibility(false);
 
-    if (this.isstaffActive) return;
-    this.isstaffActive = !this.isstaffActive;
+    if (this.isStaffActive) return;
+    this.isStaffActive = !this.isStaffActive;
     this.isTechniqueActive = false;
 
     const target = document.getElementById(elementId);
@@ -46,11 +46,11 @@ export class AsideComponent implements OnInit{
 
   showTechniqueTable(event: Event, elementId: string) {
     this.visibilityService.toggleTechniqueVisibility(true);
-    this.visibilityService.togglestaffVisibility(false);
+    this.visibilityService.toggleStaffVisibility(false);
 
     if (this.isTechniqueActive) return;
     this.isTechniqueActive = !this.isTechniqueActive;
-    this.isstaffActive = false;
+    this.isStaffActive = false;
 
     const target = document.getElementById(elementId);
     if (target) {
