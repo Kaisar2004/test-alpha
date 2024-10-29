@@ -15,6 +15,7 @@ aside {
   top: 0;
   left: 0;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  background-color: white;
 }
 .top-section {
   display: flex;
