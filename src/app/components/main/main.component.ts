@@ -11,6 +11,8 @@ import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import {Geometry, Point} from "ol/geom";
 import {DataService} from "../../services/data.service";
+import {DynamicDateService} from "../../services/dynamic-date.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-main',
@@ -68,6 +70,10 @@ export class MainComponent implements OnInit {
   private visibilityService = inject(VisibilityService);
   private dataService = inject(DataService);
 
+  private dynamicDateService = inject(DynamicDateService);
+  formattedTime: string = '';
+  private subscription!: Subscription;
+
   ngOnInit() {
     this.initializeMap();
     this.startMarkerMovement();
@@ -92,6 +98,10 @@ export class MainComponent implements OnInit {
       this.isDeviceActive = false;
       document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.no-hover').forEach(el => el.classList.remove('no-hover'));
+    });
+
+    this.subscription = this.dynamicDateService.getTimeObservable().subscribe(timeString => {
+      this.formattedTime = timeString; // Обновляем значение
     });
   }
 
