@@ -33,7 +33,8 @@ main {
 
 
 .message-popup, .devices-popup {
-  z-index: -9999;
+  z-index: 9999;
+  background-color: white;
   position: fixed;
   top: 50px;
   right: 20px;
