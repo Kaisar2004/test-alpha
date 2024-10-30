@@ -25,16 +25,45 @@ main {
   z-index: -9999;
   margin: 0 auto;
   width: 90vw;
-  height: 70vh;
+  height: 65vh;
   position: fixed;
   top: 50px;
   right: 30px;
 }
 
+.info-window {
+  width: 260px;
+  position: fixed;
+  right: 25px;
+  bottom: 10px;
+  padding: 8px 28px 8px 25px;
+  background-color: #FFFFFF;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+
+  .time-window {
+    font-family: 'Roboto Regular', sans-serif;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 8px;
+  }
+
+  .time-window span, .horizon-window{
+    font-family: "Roboto Medium", sans-serif;
+    font-size: 14px;
+    color: #52597A;
+  }
+
+  .horizon-window {
+    display: flex;
+    justify-content: space-between;
+  }
+}
 .scale-buttons {
   position: fixed;
   right: 25px;
-  bottom: 40px;
+  bottom: 80px;
   display: flex;
   gap: 10px;
   flex-direction: column;
