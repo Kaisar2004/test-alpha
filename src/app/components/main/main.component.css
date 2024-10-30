@@ -25,12 +25,31 @@ main {
   z-index: -9999;
   margin: 0 auto;
   width: 90vw;
-  height: 80vh;
+  height: 70vh;
   position: fixed;
   top: 50px;
   right: 30px;
 }
 
+.scale-buttons {
+  position: fixed;
+  right: 25px;
+  bottom: 40px;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.scale-buttons button {
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  background-color: #FFFFFF;
+  color: #2439A8;
+  font-size: 24px;
+  border-radius: 50px;
+  border: 1px transparent;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
 
 .message-popup, .devices-popup {
   z-index: 9999;
