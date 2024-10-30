@@ -4,12 +4,12 @@ import {VisibilityService} from "../../services/visibility.service";
 import TileLayer from "ol/layer/Tile";
 import {OSM} from "ol/source";
 import Map from 'ol/Map';
-import {Feature, View} from "ol";
+import {Feature, MapBrowserEvent, View} from "ol";
 import {fromLonLat} from "ol/proj";
 import {Icon, Style} from "ol/style";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import {Point} from "ol/geom";
+import {Geometry, Point} from "ol/geom";
 import {DataService} from "../../services/data.service";
 
 @Component({
@@ -71,7 +71,6 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.initializeMap();
     this.startMarkerMovement();
-    console.log(this.staffMarkerFeature);
     this.visibilityService.messageVisibility$.subscribe(isVisible => {
       this.isMessageVisible = isVisible;
     });
@@ -137,76 +136,31 @@ export class MainComponent implements OnInit {
   }
 
   private map: Map | undefined;
-  private staffMarkerFeature!: Feature;
-  private techniqueMarkerFeature!: Feature;
+  private staffMarkerFeatures: Feature[] = [];
+  private techniqueMarkerFeatures: Feature[] = [];
   private markerInterval: any;
 
   @ViewChild('mapContainer', {static: true}) mapContainer!: ElementRef;
 
-  // private initializeMap(): void {
-  //   this.markerFeature1 = new Feature({
-  //     geometry: new Point(fromLonLat([2.3522, 48.8566]))
-  //   });
-  //   this.markerFeature2 = new Feature({
-  //     geometry: new Point(fromLonLat([2.3530, 48.8550]))
-  //   });
-  //
-  //   // https://i.imgur.com/aYj6dxJ.png техника
-  //   const markerLayer = new VectorLayer({
-  //     source: new VectorSource({
-  //       features: [this.markerFeature1, this.markerFeature2]
-  //     }),
-  //     style: new Style({
-  //       image: new Icon({
-  //         src: 'https://i.imgur.com/9QGehBP.png',
-  //         anchor: [0.5, 1],
-  //         scale: 0.1
-  //       })
-  //     })
-  //   });
-  //   const markerLayer2 = new VectorLayer({
-  //     source: new VectorSource({
-  //       features: [this.markerFeature2]
-  //     }),
-  //     style: new Style({
-  //       image: new Icon({
-  //         src: 'https://i.imgur.com/aYj6dxJ.png',
-  //         anchor: [0.5, 1],
-  //         scale: 0.1
-  //       })
-  //     })
-  //   });
-  //
-  //   this.map = new Map({
-  //     target: this.mapContainer.nativeElement,
-  //     layers: [
-  //       new TileLayer({
-  //         source: new OSM()
-  //       }),
-  //       markerLayer, markerLayer2
-  //     ],
-  //     view: new View({
-  //       center: fromLonLat([2.3522, 48.8566]), // Начальная точка на карте
-  //       zoom: 14
-  //     }),
-  //   });
-  // };
+
   private initializeMap(): void {
     const markerSourceStaff = new VectorSource();
     const markerSourceTechnique = new VectorSource();
 
     this.dataService.staff.forEach((_, index) => {
-      this.staffMarkerFeature = new Feature({
-        geometry: new Point(fromLonLat([2.3522 + (index * 0.01), 48.8566])) // Корректируем координаты для примера
+      const markerFeature = new Feature({
+        geometry: new Point(fromLonLat([2.3522 + (index * 0.01), 48.8566]))
       });
-      markerSourceStaff.addFeature(this.staffMarkerFeature);
+      this.staffMarkerFeatures.push(markerFeature);
+      markerSourceStaff.addFeature(markerFeature);
     });
 
     this.dataService.technique.forEach((_, index) => {
-      this.techniqueMarkerFeature = new Feature({
-        geometry: new Point(fromLonLat([2.3600 + (index * 0.01), 48.8600])) // Корректируем координаты для примера
+      const markerFeature = new Feature({
+        geometry: new Point(fromLonLat([2.3542 + (index * 0.01), 48.8580]))
       });
-      markerSourceTechnique.addFeature(this.techniqueMarkerFeature);
+      this.techniqueMarkerFeatures.push(markerFeature);
+      markerSourceTechnique.addFeature(markerFeature);
     });
 
     const staffMarkerLayer = new VectorLayer({
@@ -218,7 +172,8 @@ export class MainComponent implements OnInit {
           scale: 0.1
         })
       })
-    });// Устанавливаем слой с маркерами
+    });
+
     const techniqueMarkerLayer = new VectorLayer({
       source: markerSourceTechnique,
       style: new Style({
@@ -230,7 +185,6 @@ export class MainComponent implements OnInit {
       })
     });
 
-    // Инициализируем карту с добавлением слоя маркеров
     this.map = new Map({
       target: this.mapContainer.nativeElement,
       layers: [
@@ -244,24 +198,60 @@ export class MainComponent implements OnInit {
         zoom: 14
       }),
     });
+
+    this.map?.on('click', (event: MapBrowserEvent<any>) => {
+      this.map?.forEachFeatureAtPixel(event.pixel, (featureLike) => {
+        const feature = featureLike as Feature<Geometry>; // Приведение типа
+
+        if (this.staffMarkerFeatures.includes(feature) || this.techniqueMarkerFeatures.includes(feature)) {
+          const isTechniqueMarker = this.techniqueMarkerFeatures.includes(feature);
+
+          feature.setStyle(
+            new Style({
+              image: new Icon({
+                src: isTechniqueMarker ? 'https://i.imgur.com/aYj6dxJ.png' : 'https://i.imgur.com/9QGehBP.png',
+                anchor: [0.5, 1],
+                scale: 0.15,
+              }),
+            })
+          );
+
+          // Сбрасываем стиль маркера через определенное время (2 секунды)
+          setTimeout(() => {
+            feature.setStyle(
+              new Style({
+                image: new Icon({
+                  src: isTechniqueMarker ? 'https://i.imgur.com/aYj6dxJ.png' : 'https://i.imgur.com/9QGehBP.png',
+                  anchor: [0.5, 1],
+                  scale: 0.1,
+                }),
+              })
+            );
+          }, 2000);
+        }
+      });
+    });
   };
 
   private startMarkerMovement(): void {
-    this.markerInterval = setInterval(() => {
-      const currentCoords1 = (this.staffMarkerFeature.getGeometry() as Point).getCoordinates();
-      const currentCoords2 = (this.techniqueMarkerFeature.getGeometry() as Point).getCoordinates();
+    setInterval(() => {
+      this.staffMarkerFeatures.forEach((markerFeature) => {
+        const currentCoords = (markerFeature.getGeometry() as Point).getCoordinates();
+        const newCoords = [
+          currentCoords[0] + (Math.random() - 0.5) * 500,
+          currentCoords[1] + (Math.random() - 0.5) * 500,
+        ];
+        (markerFeature.getGeometry() as Point).setCoordinates(newCoords);
+      });
 
-      const newCoords1 = [
-        currentCoords1[0] + (Math.random() - 0.5) * 500,
-        currentCoords1[1] + (Math.random() - 0.5) * 500,
-      ];
-      const newCoords2 = [
-        currentCoords2[0] + (Math.random() - 0.5) * 500,
-        currentCoords2[1] + (Math.random() - 0.5) * 500,
-      ];
-
-      (this.staffMarkerFeature.getGeometry() as Point)?.setCoordinates(newCoords1);
-      (this.techniqueMarkerFeature.getGeometry() as Point)?.setCoordinates(newCoords2);
+      this.techniqueMarkerFeatures.forEach((markerFeature) => {
+        const currentCoords = (markerFeature.getGeometry() as Point).getCoordinates();
+        const newCoords = [
+          currentCoords[0] + (Math.random() - 0.5) * 500,
+          currentCoords[1] + (Math.random() - 0.5) * 500,
+        ];
+        (markerFeature.getGeometry() as Point).setCoordinates(newCoords);
+      });
     }, 5000);
   }
 }
