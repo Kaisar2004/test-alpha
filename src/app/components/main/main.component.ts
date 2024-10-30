@@ -138,7 +138,7 @@ export class MainComponent implements OnInit {
   private map: Map | undefined;
   private staffMarkerFeatures: Feature[] = [];
   private techniqueMarkerFeatures: Feature[] = [];
-  private markerInterval: any;
+  private zoomLevel: number = 14;
 
   @ViewChild('mapContainer', {static: true}) mapContainer!: ElementRef;
 
@@ -195,7 +195,7 @@ export class MainComponent implements OnInit {
       ],
       view: new View({
         center: fromLonLat([2.3522, 48.8566]),
-        zoom: 14
+        zoom: this.zoomLevel,
       }),
     });
 
@@ -232,6 +232,16 @@ export class MainComponent implements OnInit {
       });
     });
   };
+
+  zoomIn(): void {
+    this.zoomLevel += 1;
+    this.map?.getView().setZoom(this.zoomLevel);
+  }
+
+  zoomOut(): void {
+    this.zoomLevel -= 1;
+    this.map?.getView().setZoom(this.zoomLevel);
+  }
 
   private startMarkerMovement(): void {
     setInterval(() => {
