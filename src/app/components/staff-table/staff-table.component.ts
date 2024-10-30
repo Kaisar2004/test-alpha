@@ -1,7 +1,9 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {VisibilityService} from "../../services/visibility.service";
 import {DataService} from "../../services/data.service";
+import {DynamicDateService} from "../../services/dynamic-date.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-staff-table',
@@ -13,7 +15,7 @@ import {DataService} from "../../services/data.service";
   templateUrl: './staff-table.component.html',
   styleUrl: './staff-table.component.css'
 })
-export class staffTableComponent implements OnInit, OnDestroy{
+export class staffTableComponent implements OnInit{
   public isVisible = false;
 
   private visibilityService = inject(VisibilityService);
@@ -21,36 +23,22 @@ export class staffTableComponent implements OnInit, OnDestroy{
 
   public staff = this.dataService.staff;
 
+  formattedDate: string = '';
+  private dynamicDateService = inject(DynamicDateService)
+  private subscription!: Subscription;
+
   ngOnInit() {
     this.visibilityService.staffVisibility$.subscribe(isVisible => {
       this.isVisible = isVisible;
     });
 
-    this.updateDate();
-    this.intervalId = setInterval(() => this.updateDate(), 5000);
+    this.subscription = this.dynamicDateService.getDateObservable().subscribe(dateString => {
+      this.formattedDate = dateString;
+    });
   }
 
   hideStaffTable() {
     this.visibilityService.toggleStaffVisibility(false);
     this.visibilityService.closePersonnel();
-  }
-
-  formattedDate: string = '';
-  private intervalId: any;
-
-  updateDate(): void {
-    const now = new Date();
-    this.formattedDate = `${this.pad(now.getDate())}.${this.pad(now.getMonth() + 1)}.${now.getFullYear()} ` +
-      `${this.pad(now.getHours())}:${this.pad(now.getMinutes())}:${this.pad(now.getSeconds())}`;
-  }
-
-  pad(num: number): string {
-    return num < 10 ? '0' + num : num.toString();
-  }
-
-  ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
   }
 }
