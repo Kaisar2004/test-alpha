@@ -36,6 +36,11 @@
 
 <main>
   <div #mapContainer class="map-container"></div>
+
+  <div class="scale-buttons">
+    <button (click)="zoomIn()">+</button>
+    <button (click)="zoomOut()">-</button>
+  </div>
 </main>
 
 <div class="message-popup" *ngIf="isMessageVisible">
